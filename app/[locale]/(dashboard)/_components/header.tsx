@@ -3,7 +3,7 @@
 // import { SidebarTrigger } from "@/components/ui/sidebar";
 import { ThemeToggle } from "@/components/theme-toggle";
 import Image from "next/image";
-import { UserNav } from "@/components/user-nav";
+import { UserNav } from "@/app/[locale]/(dashboard)/_components/user-nav";
 import { LanguageSelector } from "@/components/LanguageSelector";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";

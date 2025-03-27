@@ -65,7 +65,7 @@ export function AppSidebar() {
                   >
                     <Link
                       href={item.href}
-                      className="flex items-center hover:dark:bg-emerald-900/30 hover:bg-white active:!bg-white active:dark:!bg-emerald-900 mb-2 px-4 py-6 rounded-md"
+                      className="flex items-center hover:bg-white hover:dark:bg-emerald-900/30 active:!bg-white active:dark:!bg-emerald-900 mb-2 px-4 py-6 rounded-md"
                     >
                       <item.icon className="mr-2 !w-6 !h-6" />
                       {item.label}

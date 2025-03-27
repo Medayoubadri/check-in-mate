@@ -1,11 +1,11 @@
 // app/[locale]/(dashboard)/layout.tsx
 import type React from "react";
-import Header from "@/components/header";
+import Header from "@/app/[locale]/(dashboard)/_components/header";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
-import { AppSidebar } from "@/components/SideBar";
+import { AppSidebar } from "@/app/[locale]/(dashboard)/_components/SideBar";
 
 export default async function DashboardLayout({
   children,

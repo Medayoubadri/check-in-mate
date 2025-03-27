@@ -43,6 +43,7 @@ interface Student {
   age: number;
   gender: string;
   phoneNumber: string;
+  image: string;
   createdAt: string;
 }
 
@@ -133,133 +134,129 @@ export function StudentsTable({
 
   return (
     <>
-      <div className="relative flex flex-col bg-background border rounded-md w-full h-full overflow-hidden">
-        <div className="h-[350px] 2xl:h-[500px] overflow-auto">
-          <Table>
-            <TableHeader className="top-0 z-10 sticky bg-primary/20">
-              <TableRow>
-                <TableHead className="w-[50px]">
-                  <Checkbox
-                    checked={
-                      selectedStudents.length === currentStudents.length &&
-                      currentStudents.length > 0
-                    }
-                    onCheckedChange={handleSelectAllStudents}
-                  />
-                </TableHead>
-                <TableHead className="w-[50px]">{t("No")}</TableHead>
-                <TableHead
-                  onClick={() => handleSort("name")}
-                  className="w-28 md:w-1/2 whitespace-nowrap cursor-pointer"
-                >
-                  {t("FullName")}
-                  {sortColumn === "name" &&
-                    (sortDirection === "asc" ? " ↑" : " ↓")}
-                </TableHead>
-                <TableHead
-                  onClick={() => handleSort("age")}
-                  className="w-[100px] whitespace-nowrap cursor-pointer"
-                >
-                  {t("Age")}
-                  {sortColumn === "age" &&
-                    (sortDirection === "asc" ? " ↑" : " ↓")}
-                </TableHead>
-                <TableHead
-                  onClick={() => handleSort("gender")}
-                  className="hidden md:table-cell w-[150px] whitespace-nowrap cursor-pointer"
-                >
-                  {t("Gender")}
-                  {sortColumn === "gender" &&
-                    (sortDirection === "asc" ? " ↑" : " ↓")}
-                </TableHead>
-                <TableHead className="hidden md:table-cell w-[350px]">
-                  {t("PhoneNumber")}
-                </TableHead>
-                <TableHead className="w-[100px]">{t("Edit")}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody className="bg-background overflow-y-auto">
-              {isLoading
-                ? // Loading skeleton
-                  Array.from({ length: 6 }).map((_, index) => (
-                    <TableRow key={index}>
-                      {Array.from({ length: 7 }).map((_, cellIndex) => (
-                        <TableCell key={cellIndex}>
-                          <Skeleton className="w-full h-9" />
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))
-                : // Existing table body content
-                  currentStudents.map((student, index) => (
-                    <TableRow key={student.id}>
-                      <TableCell>
-                        <Checkbox
-                          checked={selectedStudents.includes(student.id)}
-                          onCheckedChange={() =>
-                            handleSelectStudent(student.id)
-                          }
-                        />
+      <div className="relative border rounded-xl w-full [&>div]:max-h-[calc(100vh-350px)] overflow-hidden">
+        <Table className="[&_tfoot_td]:border-t [&_td]:border-border [&_th]:border-b [&_th]:border-border [&_tr:not(:last-child)_td]:border-b [&_tr]:border-none border-separate border-spacing-0">
+          <TableHeader className="top-0 z-10 sticky bg-background/80 dark:bg-background/90 backdrop-blur-[100px] rounded-xl">
+            <TableRow>
+              <TableHead className="w-[50px]">
+                <Checkbox
+                  checked={
+                    selectedStudents.length === currentStudents.length &&
+                    currentStudents.length > 0
+                  }
+                  onCheckedChange={handleSelectAllStudents}
+                />
+              </TableHead>
+              <TableHead className="w-[50px]">{t("No")}</TableHead>
+              <TableHead
+                onClick={() => handleSort("name")}
+                className="w-28 md:w-1/2 whitespace-nowrap cursor-pointer"
+              >
+                {t("FullName")}
+                {sortColumn === "name" &&
+                  (sortDirection === "asc" ? " ↑" : " ↓")}
+              </TableHead>
+              <TableHead
+                onClick={() => handleSort("age")}
+                className="w-[100px] whitespace-nowrap cursor-pointer"
+              >
+                {t("Age")}
+                {sortColumn === "age" &&
+                  (sortDirection === "asc" ? " ↑" : " ↓")}
+              </TableHead>
+              <TableHead
+                onClick={() => handleSort("gender")}
+                className="hidden md:table-cell w-[150px] whitespace-nowrap cursor-pointer"
+              >
+                {t("Gender")}
+                {sortColumn === "gender" &&
+                  (sortDirection === "asc" ? " ↑" : " ↓")}
+              </TableHead>
+              <TableHead className="hidden md:table-cell w-[350px]">
+                {t("PhoneNumber")}
+              </TableHead>
+              <TableHead className="w-[100px]">{t("Edit")}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading
+              ? // Loading skeleton
+                Array.from({ length: 6 }).map((_, index) => (
+                  <TableRow key={index}>
+                    {Array.from({ length: 7 }).map((_, cellIndex) => (
+                      <TableCell key={cellIndex}>
+                        <Skeleton className="w-full h-9" />
                       </TableCell>
-                      <TableCell>{indexOfFirstStudent + index + 1}</TableCell>
-                      <TableCell className="flex items-center w-[150px] md:w-auto truncate">
-                        {student.name}
-                        {isNewStudent(student.createdAt) && (
-                          <div className="bg-green-500 ml-2 rounded-full w-2 h-2" />
-                        )}
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        {student.age}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell whitespace-nowrap">
-                        {student.gender === "Female"
-                          ? t("female")
-                          : student.gender === "Male"
-                          ? t("male")
-                          : student.gender}
-                      </TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        {student.phoneNumber}
-                      </TableCell>
-                      <TableCell>
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm">
-                              <EllipsisVertical className="" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem
-                              className="cursor-pointer"
-                              onClick={() => onEdit(student)}
-                            >
-                              <Edit className="w-4 h-4" />
-                              {t("Edit")}
-                            </DropdownMenuItem>
-                            <DropdownMenuItem
-                              className="hover:!bg-red-800 text-red-600 hover:!text-destructive-foreground cursor-pointer"
-                              onClick={() => handleDeleteClick(student.id)}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                              {t("Delete")}
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-            </TableBody>
-          </Table>
-          {!isLoading && currentStudents.length === 0 && (
-            <div className="flex justify-center items-end py-4 w-full h-1/2 text-muted-foreground text-center">
-              {selectedDate
-                ? `${t("noStudentsFound")} ${
-                    searchTerm ? t("forSearch") : ""
-                  } for the selected date.`
-                : `${t("noStudentsFound")}${searchTerm ? t("forSearch") : "."}`}
-            </div>
-          )}
-        </div>
+                    ))}
+                  </TableRow>
+                ))
+              : // Existing table body content
+                currentStudents.map((student, index) => (
+                  <TableRow key={student.id}>
+                    <TableCell>
+                      <Checkbox
+                        checked={selectedStudents.includes(student.id)}
+                        onCheckedChange={() => handleSelectStudent(student.id)}
+                      />
+                    </TableCell>
+                    <TableCell>{indexOfFirstStudent + index + 1}</TableCell>
+                    <TableCell className="w-[150px] md:w-auto truncate">
+                      {student.name}
+                      {isNewStudent(student.createdAt) && (
+                        <div className="bg-green-500 ml-2 rounded-full w-2 h-2" />
+                      )}
+                    </TableCell>
+                    <TableCell className="whitespace-nowrap">
+                      {student.age}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell whitespace-nowrap">
+                      {student.gender === "Female"
+                        ? t("female")
+                        : student.gender === "Male"
+                        ? t("male")
+                        : student.gender}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {student.phoneNumber}
+                    </TableCell>
+                    <TableCell>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <EllipsisVertical className="" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => onEdit(student)}
+                          >
+                            <Edit className="w-4 h-4" />
+                            {t("Edit")}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            className="hover:!bg-red-800 text-red-600 hover:!text-destructive-foreground cursor-pointer"
+                            onClick={() => handleDeleteClick(student.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            {t("Delete")}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </TableCell>
+                  </TableRow>
+                ))}
+          </TableBody>
+        </Table>
+        {!isLoading && currentStudents.length === 0 && (
+          <div className="flex justify-center items-end py-4 w-full h-1/2 text-muted-foreground text-center">
+            {selectedDate
+              ? `${t("noStudentsFound")} ${
+                  searchTerm ? t("forSearch") : ""
+                } for the selected date.`
+              : `${t("noStudentsFound")}${searchTerm ? t("forSearch") : "."}`}
+          </div>
+        )}
       </div>
       <AnimatePresence>
         {selectedStudents.length > 0 && (

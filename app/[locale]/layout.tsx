@@ -1,7 +1,7 @@
 // app/[locale]/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
 import type React from "react";
 import { ThemeProvider } from "@/providers/theme-provider";
@@ -12,7 +12,10 @@ import { SWRProviders } from "@/providers/SWRProvider";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Check-in Mate",
@@ -40,7 +43,7 @@ export default async function RootLayout({
             <NextIntlClientProvider messages={messages} locale={locale}>
               <ThemeProvider
                 attribute="class"
-                defaultTheme="system"
+                defaultTheme="dark"
                 enableSystem
                 disableTransitionOnChange
               >

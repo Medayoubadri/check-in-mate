@@ -90,6 +90,8 @@ export function StudentCheckIn({
         age: Number(submittedAge),
         gender: submittedGender,
         phoneNumber: submittedPhoneNumber,
+        image: "",
+        createdAt: "",
       });
 
       await markAttendance(newStudent.id);
@@ -207,13 +209,13 @@ export function StudentCheckIn({
                 placeholder={t("startTypingStudentName")}
               />
               {suggestions.length > 0 && (
-                <Card className="z-10 absolute mt-1 w-full">
+                <Card className="z-10 absolute shadow-2xl mt-1 border w-full overflow-hidden">
                   <CardContent className="p-0">
                     <ul className="bg-background px-2 py-2 rounded-xl max-h-60 overflow-auto">
                       {suggestions.map((student) => (
                         <li
                           key={student.id}
-                          className="hover:bg-gray-100/10 px-4 py-2 rounded-md cursor-pointer"
+                          className="hover:bg-primary/50 px-4 py-2 rounded-md cursor-pointer"
                           onClick={() => handleSelect(student)}
                         >
                           {student.name}
